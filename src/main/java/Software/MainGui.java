@@ -2,10 +2,13 @@ package Software;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.Objects;
+import java.util.Random;
 
 public class MainGui implements KeyListener {
     JFrame jFrame;
@@ -14,6 +17,7 @@ public class MainGui implements KeyListener {
     ImageIcon rocketIcon;
     ImageIcon asteroidIcon;
     ImageIcon backgroundImage;
+    Timer timer;
 
     public void drawingFrame(){
         jFrame = new JFrame();
@@ -35,16 +39,30 @@ public class MainGui implements KeyListener {
 
         jFrame.add(asteroidJLabel);
         jFrame.add(rocketJLabel);
+
+//:TODO something wrong
+        timer = new Timer(500, new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Random random = new Random();
+                int newX = random.nextInt(jFrame.getWidth() - asteroidJLabel.getWidth());
+                int newY = random.nextInt(jFrame.getHeight() - asteroidJLabel.getHeight());
+
+                asteroidJLabel.setLocation(newX, newY);
+            }
+        });
+        timer.start();
         jFrame.setVisible(true);
-//        System.out.println(new File("src/rocket(1).png").getAbsolutePath());
 
     }
+
+
+
+
 
     @Override
     public void keyTyped(KeyEvent e) {
     }
-
-
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()){
@@ -65,6 +83,5 @@ public class MainGui implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         System.out.println("You released: "+e.getKeyCode());
-
     }
 }
