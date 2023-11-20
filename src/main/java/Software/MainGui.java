@@ -4,10 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.util.Objects;
 
 public class MainGui implements KeyListener {
     JFrame jFrame;
     JLabel jLabel;
+    ImageIcon icon;
 
     public void drawingFrame(){
         jFrame = new JFrame();
@@ -16,14 +19,16 @@ public class MainGui implements KeyListener {
         jFrame.addKeyListener(this);
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jFrame.setLocationRelativeTo(null);
+        icon = new ImageIcon("src/rocket (1).png");
+//        icon = new ImageIcon("C:\\Users\\YourUser\\Path\\To\\Your\\Project\\src\\rocket(1).png");
 
         jLabel = new JLabel();
-        jLabel.setBounds(0,0,100,100);
-        jLabel.setBackground(Color.BLUE);
-        jLabel.setOpaque(true); //because of BG, thaat will be display
+        jLabel.setBounds(0,0,400,400);
+        jLabel.setIcon(icon);
 
         jFrame.add(jLabel);
         jFrame.setVisible(true);
+//        System.out.println(new File("src/rocket(1).png").getAbsolutePath());
 
     }
 
