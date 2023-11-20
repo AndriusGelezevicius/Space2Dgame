@@ -9,8 +9,11 @@ import java.util.Objects;
 
 public class MainGui implements KeyListener {
     JFrame jFrame;
-    JLabel jLabel;
-    ImageIcon icon;
+    JLabel rocketJLabel;
+    JLabel asteroidJLabel;
+    ImageIcon rocketIcon;
+    ImageIcon asteroidIcon;
+    ImageIcon backgroundImage;
 
     public void drawingFrame(){
         jFrame = new JFrame();
@@ -19,14 +22,19 @@ public class MainGui implements KeyListener {
         jFrame.addKeyListener(this);
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jFrame.setLocationRelativeTo(null);
-        icon = new ImageIcon("src/rocket (1).png");
-//        icon = new ImageIcon("C:\\Users\\YourUser\\Path\\To\\Your\\Project\\src\\rocket(1).png");
+        rocketIcon = new ImageIcon("src/rocket (1).png");
+        asteroidIcon = new ImageIcon("src/asteroid.png");
+        backgroundImage = new ImageIcon("src/background.png");
 
-        jLabel = new JLabel();
-        jLabel.setBounds(0,0,400,400);
-        jLabel.setIcon(icon);
+        rocketJLabel = new JLabel();
+        rocketJLabel.setBounds(210,220,400,400);
+        asteroidJLabel = new JLabel();
+        asteroidJLabel.setBounds(0,0, 300,300);
+        rocketJLabel.setIcon(rocketIcon);
+        asteroidJLabel.setIcon(asteroidIcon);
 
-        jFrame.add(jLabel);
+        jFrame.add(asteroidJLabel);
+        jFrame.add(rocketJLabel);
         jFrame.setVisible(true);
 //        System.out.println(new File("src/rocket(1).png").getAbsolutePath());
 
@@ -41,16 +49,16 @@ public class MainGui implements KeyListener {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()){
             case 38:
-                jLabel.setLocation(jLabel.getX(), jLabel.getY()-10);
+                rocketJLabel.setLocation(rocketJLabel.getX(), rocketJLabel.getY()-10);
                 break;
             case 40:
-                jLabel.setLocation(jLabel.getX(), jLabel.getY()+10);
+                rocketJLabel.setLocation(rocketJLabel.getX(), rocketJLabel.getY()+10);
                 break;
             case 37:
-                jLabel.setLocation(jLabel.getX()-10, jLabel.getY());
+                rocketJLabel.setLocation(rocketJLabel.getX()-10, rocketJLabel.getY());
                 break;
             case 39:
-                jLabel.setLocation(jLabel.getX()+10, jLabel.getY());
+                rocketJLabel.setLocation(rocketJLabel.getX()+10, rocketJLabel.getY());
                 break;
         }
     }
