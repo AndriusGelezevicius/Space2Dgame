@@ -1,6 +1,7 @@
 package Software;
 
 import javax.swing.*;
+import java.awt.Rectangle;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +21,9 @@ public class MainGui implements KeyListener {
     Timer timer;
     int jFrameWidth = 500;
     int jFrameHeight = 500;
+    int asteroindX = 0;
+    int asteroidY = 0;
+    int asteroidXedge = 1;
 
     public void drawingFrame(){
         jFrame = new JFrame();
@@ -27,7 +31,7 @@ public class MainGui implements KeyListener {
         jFrame.setLayout(null);
         jFrame.addKeyListener(this);
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        jFrame.setResizable(false);
+//        jFrame.setResizable(false);
         jFrame.setLocationRelativeTo(null);
         rocketIcon = new ImageIcon("src/rocket (1).png");
         asteroidIcon = new ImageIcon("src/asteroid.png");
@@ -36,7 +40,7 @@ public class MainGui implements KeyListener {
         rocketJLabel = new JLabel();
         rocketJLabel.setBounds(210,220,400,400);
         asteroidJLabel = new JLabel();
-        asteroidJLabel.setBounds(0,0, 300,300);
+        asteroidJLabel.setBounds(asteroindX,asteroidY, 300,300);
         rocketJLabel.setIcon(rocketIcon);
         asteroidJLabel.setIcon(asteroidIcon);
 
@@ -45,8 +49,20 @@ public class MainGui implements KeyListener {
 
         jFrame.setVisible(true);
 
-        
+        timer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                asteroindX = asteroindX + (10 * asteroidXedge); // Move the asteroid by 10 pixels
 
+                // Check if the asteroid has reached the right edge or left edge
+                if (asteroindX >= 417 || asteroindX <= 0) {
+                    asteroidXedge = -asteroidXedge; // Reverse the direction of movement
+                }
+
+                asteroidJLabel.setLocation(asteroindX, asteroidY);
+            }
+        });
+        timer.start();
     }
 
 
@@ -90,8 +106,10 @@ public class MainGui implements KeyListener {
         }else if (newY < -160){
             newY = -160;
         }
-        rocketJLabel.setLocation(newX, newY);
+
     }
+
+
 
 
     @Override
