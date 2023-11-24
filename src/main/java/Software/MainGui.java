@@ -35,7 +35,8 @@ public class MainGui implements KeyListener {
     int asteroidYedge2 = 1;
     int newX, newY;
     private boolean gameOver = false;
-    private Sounds explosion;
+    private Sounds explosionSound;
+    private Sounds backgroundSound;
 
     public void drawingFrame() throws FontFormatException {
 
@@ -44,9 +45,10 @@ public class MainGui implements KeyListener {
         jFrame.setLayout(null);
         jFrame.addKeyListener(this);
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//        jFrame.setResizable(false);
+        jFrame.setResizable(false);
         jFrame.setLocationRelativeTo(null);
-        explosion = new Sounds();
+        backgroundSound = new Sounds();
+        explosionSound = new Sounds();
         Font font = new Font("Monaco", Font.BOLD | Font.ITALIC, 30);
 
         rocketIcon = new ImageIcon("src/rocket (1).png");
@@ -58,6 +60,7 @@ public class MainGui implements KeyListener {
         JLabel backgroundLabel = new JLabel(backgroundImage);
         //prevent background on top on top
         backgroundLabel.setBounds(0,0, jFrame.getWidth(), jFrame.getHeight());
+        backgroundSound.playBackgroundSong();
 
         gameOverLabel = new JLabel("GAME OVER!");
         gameOverLabel.setBounds(150,200,200,100);
@@ -80,7 +83,6 @@ public class MainGui implements KeyListener {
         rocketJLabel.setIcon(rocketIcon);
         asteroidJLabel.setIcon(asteroidIcon);
         asteroidJLabel2.setIcon(asteroidIcon2);
-//        jFrame.add(backgroundLabel);
         jFrame.add(asteroidJLabel);
         jFrame.add(asteroidJLabel2);
         jFrame.add(rocketJLabel);
@@ -91,13 +93,10 @@ public class MainGui implements KeyListener {
         timer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
                asteroidX2 =  asteroidX2 + (10 * asteroidXedge2);
                asteroidY2 =  asteroidY2 + (10 * asteroidYedge2);
                 asteroidX = asteroidX + (10 * asteroidXedge); // Move the asteroid by 10 pixels
                 asteroidY = asteroidY +(10 * asteroidYedge);
-
 
                 if (!gameOver){
                     // Check if the asteroid has reached the right edge or left edge
@@ -113,7 +112,6 @@ public class MainGui implements KeyListener {
                     if (asteroidY2 >= 400 || asteroidY2 <=0){
                         asteroidYedge2 = -asteroidYedge2;
                     }
-
                     asteroidJLabel.setLocation(asteroidX, asteroidY);
                     asteroidJLabel2.setLocation(asteroidX2, asteroidY2);
                     System.out.println(asteroidX2);
@@ -181,7 +179,7 @@ public class MainGui implements KeyListener {
 
         if (asteroidRect.intersects(rocketRect) || asteroidRect2.intersects(rocketRect)) {
             System.out.println("GAME OVER");
-            explosion.start();
+            explosionSound.playSoundEffect();
             gameOverLabel.setVisible(true);
             gameOver = true;
 
