@@ -35,6 +35,7 @@ public class MainGui implements KeyListener {
     int asteroidYedge2 = 1;
     int newX, newY;
     private boolean gameOver = false;
+    private Sounds explosion;
 
     public void drawingFrame() throws FontFormatException {
 
@@ -45,6 +46,7 @@ public class MainGui implements KeyListener {
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 //        jFrame.setResizable(false);
         jFrame.setLocationRelativeTo(null);
+        explosion = new Sounds();
         Font font = new Font("Monaco", Font.BOLD | Font.ITALIC, 30);
 
         rocketIcon = new ImageIcon("src/rocket (1).png");
@@ -179,12 +181,14 @@ public class MainGui implements KeyListener {
 
         if (asteroidRect.intersects(rocketRect) || asteroidRect2.intersects(rocketRect)) {
             System.out.println("GAME OVER");
+            explosion.start();
             gameOverLabel.setVisible(true);
             gameOver = true;
 
         }
 
     }
+
 
 
 
