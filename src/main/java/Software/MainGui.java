@@ -62,11 +62,8 @@ public class MainGui implements KeyListener {
         asteroidIcon2 = new ImageIcon("src\\main\\resources\\Images\\asteroid.png");
         asteroidIcon3 = new ImageIcon("src\\main\\resources\\Images\\asteroid.png");
         enemyRocketIcon = new ImageIcon("src\\main\\resources\\Images\\enemy.png");
-//        backgroundImage = new ImageIcon("src\\main\\resources\\Images\\background.png");
 
-        JLabel backgroundLabel = new JLabel(backgroundImage);
-        //prevent background on top on top
-        backgroundLabel.setBounds(0,0, jFrame.getWidth(), jFrame.getHeight());
+        jFrame.getContentPane().setBackground(Color.black);
         backgroundSound.playBackgroundSong();
 
         gameOverLabel = new JLabel("GAME OVER!");
@@ -77,8 +74,6 @@ public class MainGui implements KeyListener {
 
         rocketJLabel = new JLabel();
         rocketJLabel.setBounds(210,400,60,65);
-
-
 
         Random random = new Random();
         asteroidX2 = random.nextInt(400);
@@ -105,7 +100,6 @@ public class MainGui implements KeyListener {
         jFrame.add(rocketJLabel);
         jFrame.add(gameOverLabel);
         jFrame.add(enemyRocketLabel);
-
         jFrame.setVisible(true);
 
         timer = new Timer(100, new ActionListener() {
@@ -137,6 +131,7 @@ public class MainGui implements KeyListener {
                 }
             }
         });
+
         timer.start();
         enemyShowTimer = new Timer(5000, new ActionListener() {
             @Override
@@ -155,7 +150,6 @@ public class MainGui implements KeyListener {
         });
         enemyMoveTimer.start();
     }
-
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -186,10 +180,8 @@ public class MainGui implements KeyListener {
     private void moveRocket(int deltaX, int deltaY) {
         newX = rocketJLabel.getX() + deltaX;
         newY = rocketJLabel.getY() + deltaY;
-
         int maxX = jFrame.getWidth();
         int maxY = jFrame.getHeight();
-
         // Ensure the new position is within the bounds
         if (newX > 430){
             newX = 430;
@@ -201,28 +193,25 @@ public class MainGui implements KeyListener {
         }else if (newY < 0){
             newY = 0;
         }
-
         rocketJLabel.setLocation(newX, newY);
         checkCollision();
-
         System.out.println(newY);
     }
     public void checkCollision(){
         Rectangle asteroidRect = new Rectangle(asteroidX, asteroidY, asteroidJLabel.getWidth(), asteroidJLabel.getHeight());
         Rectangle asteroidRect2 = new Rectangle(asteroidX2, asteroidY2, asteroidJLabel2.getWidth(), asteroidJLabel2.getHeight());
         Rectangle rocketRect = new Rectangle(newX, newY, rocketJLabel.getWidth(), rocketJLabel.getHeight());
-
-        if (asteroidRect.intersects(rocketRect) || asteroidRect2.intersects(rocketRect)) {
+        Rectangle enemyRect = new Rectangle(enemyX, enemyY, enemyRocketLabel.getWidth(), enemyRocketLabel.getHeight());
+        if (asteroidRect.intersects(rocketRect) || asteroidRect2.intersects(rocketRect) || enemyRect.intersects(rocketRect)) {
             System.out.println("GAME OVER");
             explosionSound.playSoundEffect();
             gameOverLabel.setVisible(true);
             gameOver = true;
+            enemyMoveTimer.stop();
 
         }
-
     }
     @Override
     public void keyReleased(KeyEvent e) {
-
     }
 }
