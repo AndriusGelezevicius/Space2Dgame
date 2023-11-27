@@ -17,14 +17,20 @@ public class MainGui implements KeyListener {
     JLabel asteroidJLabel;
     JLabel asteroidJLabel2;
     JLabel gameOverLabel;
+    JLabel enemyRocketLabel;
     ImageIcon rocketIcon;
     ImageIcon asteroidIcon;
     ImageIcon asteroidIcon2;
     ImageIcon asteroidIcon3;
+    ImageIcon enemyRocketIcon;
     ImageIcon backgroundImage;
     Timer timer;
+    Timer enemyShowTimer;
+    Timer enemyMoveTimer;
     int jFrameWidth = 500;
     int jFrameHeight = 500;
+    int enemyX = 0;
+    int enemyY = -100;
     int asteroidX = 0;
     int asteroidY = 0;
     int asteroidX2;
@@ -51,11 +57,12 @@ public class MainGui implements KeyListener {
         explosionSound = new Sounds();
         Font font = new Font("Monaco", Font.BOLD | Font.ITALIC, 30);
 
-        rocketIcon = new ImageIcon("src/rocket (1).png");
-        asteroidIcon = new ImageIcon("src/asteroid.png");
-        asteroidIcon2 = new ImageIcon("src/asteroid.png");
-        asteroidIcon3 = new ImageIcon("src/asteroid.png");
-        backgroundImage = new ImageIcon("src/background.png");
+        rocketIcon = new ImageIcon("src\\main\\resources\\Images\\rocket (1).png");
+        asteroidIcon = new ImageIcon("src\\main\\resources\\Images\\asteroid.png");
+        asteroidIcon2 = new ImageIcon("src\\main\\resources\\Images\\asteroid.png");
+        asteroidIcon3 = new ImageIcon("src\\main\\resources\\Images\\asteroid.png");
+        enemyRocketIcon = new ImageIcon("src\\main\\resources\\Images\\enemy.png");
+//        backgroundImage = new ImageIcon("src\\main\\resources\\Images\\background.png");
 
         JLabel backgroundLabel = new JLabel(backgroundImage);
         //prevent background on top on top
@@ -71,22 +78,33 @@ public class MainGui implements KeyListener {
         rocketJLabel = new JLabel();
         rocketJLabel.setBounds(210,400,60,65);
 
+
+
         Random random = new Random();
         asteroidX2 = random.nextInt(400);
         asteroidY2 = random.nextInt(400);
 
+        Random enemyRandom = new Random();
+        enemyX = random.nextInt(500);
+
+        enemyRocketLabel = new JLabel();
+        enemyRocketLabel.setBounds(enemyX,enemyY, 80,80);
 
         asteroidJLabel = new JLabel();
         asteroidJLabel2 = new JLabel();
         asteroidJLabel.setBounds(asteroidX,asteroidY, 70,70);
         asteroidJLabel2.setBounds(asteroidX2,asteroidY2, 70,70);
+
         rocketJLabel.setIcon(rocketIcon);
         asteroidJLabel.setIcon(asteroidIcon);
         asteroidJLabel2.setIcon(asteroidIcon2);
+        enemyRocketLabel.setIcon(enemyRocketIcon);
+        enemyRocketLabel.setVisible(false);
         jFrame.add(asteroidJLabel);
         jFrame.add(asteroidJLabel2);
         jFrame.add(rocketJLabel);
         jFrame.add(gameOverLabel);
+        jFrame.add(enemyRocketLabel);
 
         jFrame.setVisible(true);
 
@@ -120,7 +138,24 @@ public class MainGui implements KeyListener {
             }
         });
         timer.start();
+        enemyShowTimer = new Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                enemyRocketLabel.setVisible(true);
+            }
+        });
+        enemyShowTimer.start();
+
+        enemyMoveTimer = new Timer(500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                enemyY = enemyY + 10;
+                enemyRocketLabel.setLocation(enemyX, enemyY);
+            }
+        });
+        enemyMoveTimer.start();
     }
+
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -186,10 +221,6 @@ public class MainGui implements KeyListener {
         }
 
     }
-
-
-
-
     @Override
     public void keyReleased(KeyEvent e) {
 
